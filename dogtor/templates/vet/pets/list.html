@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Pets</title>
+{% endblock title %}
+
+{% block header %}
+<h1>Pets  list</h1>
+{% endblock header %}
+
+{% block content %}
+ 
+  {% for pet in pets %}
+  <tr>
+    <a href="{%url 'vet:pets_detail' pk=pet.id %}"> {{pet.id}} </a>
+      <td>Mascota: {{ pet.id }}</td>    
+      <td>{{ pet.type }}</td>
+      <td>{{ pet.name }}</td>
+      <li>
+        <td>{{ pet.owner }} </td>
+      </li>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock content %}
