@@ -7,8 +7,11 @@ from django.template import loader
 from django.http import HttpResponse
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
-#forms
+#nos ayuda a limitar los manejos de los modelos son los permisos para manipular mis modelos
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
+#forms
+# importo de las forms de app (vet)
 from .forms import OwnerForm, PetForm
 
 def list_pet_owners(request):
@@ -95,8 +98,12 @@ class OwnersCreate(CreateView):
     form_class = OwnerForm
     success_url=reverse_lazy("vet:owners_list")
 
-class OwnersUpdate(UpdateView):
+class OwnersUpdate(PermissionRequiredMixin, UpdateView):
     """View used to update a PetOwner"""
+    #lo que le paso al permiso es muy importante para que sirva el permiso
+    #parametros y el orden app.accion.model si cambio algo no sirve el permiso
+    permission_required="vet.change_petowner"
+    raise_exception=True
     model = PetOwner
     template_name = "vet/owners/update.html"
     form_class = OwnerForm
