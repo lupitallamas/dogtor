@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 
 # Create your views  como funcion hay vistas de clasehere.
@@ -8,7 +9,7 @@ from django.http import HttpResponse
 from django.views.generic import View, TemplateView, ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 #nos ayuda a limitar los manejos de los modelos son los permisos para manipular mis modelos
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin,  LoginRequiredMixin
 
 #forms
 # importo de las forms de app (vet)
@@ -51,7 +52,7 @@ def list_pet_owners(request):
 #        #le agregamos nuestro custom context
 #        context["pets"] = Pet.objects.all()
 #        return context
-
+#---------------------------------------------------------------------------------------
 class PetsList(ListView):
    #1, Modelo con el que estamos manipulando
     #Templete con el quevamos a renderizar
@@ -74,7 +75,7 @@ class OwnersList(ListView):
     template_name = "vet/owners/list.html" #2
     context_object_name="owners" #3  
     
-class OwnerDatail(DetailView):
+class OwnerDatail(LoginRequiredMixin, DetailView):
     """Render a specific pet"""
     model = PetOwner #1
     template_name = "vet/owners/detail.html" #2
@@ -103,7 +104,9 @@ class OwnersUpdate(PermissionRequiredMixin, UpdateView):
     #lo que le paso al permiso es muy importante para que sirva el permiso
     #parametros y el orden app.accion.model si cambio algo no sirve el permiso
     permission_required="vet.change_petowner"
-    raise_exception=True
+    raise_exception=False
+    login_url ="/admin/login" # En caso que no tengamos
+    redirect_field_name = "next"
     model = PetOwner
     template_name = "vet/owners/update.html"
     form_class = OwnerForm
@@ -128,4 +131,6 @@ class PetsUpdate(UpdateView):
     model = Pet
     template_name = "vet/pets/update.html"
     form_class = PetForm
-    success_url = reverse_lazy("vet:pets_list")   
+    success_url = reverse_lazy("vet:pets_list")  
+#---------------------------------------------------------------------------     
+    

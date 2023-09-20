@@ -1,3 +1,4 @@
 Django==4.2.5
 python==8.15.0
 python==8.15.
+djangorestframework==3.14.0

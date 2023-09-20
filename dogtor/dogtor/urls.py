@@ -19,11 +19,15 @@ from django.urls import path, include
 from blog.admin import blog_admin_site  
 from vet.admin import vet_admin_site
 
+#si no tienes include->reversed url
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("blogadmin/", blog_admin_site.urls),
     path("vetadmin/", vet_admin_site.urls),
     path("vet/", include(("vet.urls", "vet"))),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("api/", include(("api.urls","api"))),
 ]
 #customizar nuestro  panel de administracion
 

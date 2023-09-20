@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #Customs apps
+    #Customs apps (mis app) y las framework que yo utilice en el proyecto como la de rest_framework
     "vet",
     "blog",
+    "authentication",
+    "rest_framework",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -75,7 +78,7 @@ WSGI_APPLICATION = 'dogtor.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# se redirecciona hacia mi BD  de postgres
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -83,7 +86,7 @@ DATABASES = {
         "USER": "postgres",
         "HOST": "localhost",
         "PORT": "5432",
-        #'NAME': BASE_DIR / 'db.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3', # esta es la BD por default de django
     }
 }
 
@@ -118,6 +121,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+#URL's de redireccion para login para hacer un user customizado
+LOGIN_REDIRECT_URL ="/vet/owners/"
+LOGOUT_REDIRECT_URL= "/"
+
+AUTH_USER_MODEL = "authentication.ModUser"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
